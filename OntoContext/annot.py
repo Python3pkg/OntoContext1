@@ -226,7 +226,7 @@ def anntation(directory, table_name):
 		syno_dis=syno ('DOID', all_dis)
 		for C in syno_dis:
 				req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(C)+',DOID)'
-				print req 
+				#print req 
 				with con:
 					cur.execute(req)
 		texte=texte+'\n'+'Disease:'
@@ -238,7 +238,7 @@ def anntation(directory, table_name):
 		syno_ana=syno ('UBERON', all_ana)
 		for C in syno_ana:
 				req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(C)+',UBERON)'
-				print req 
+				#print req 
 				with con:
 					cur.execute(req)
 		texte=texte+'\n'+'Anatomy:'
@@ -248,9 +248,9 @@ def anntation(directory, table_name):
 			texte=texte+'\t'+k[0]
 		texte=texte+'\n'+'Gene:'
 		for k in list(set(list_gene)):
-			req=('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(k[0])+','+str(k[1])+')')
-				with con:
-					cur.execute(req)
+			req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(k[0])+','+str(k[1])+')'
+			with con:
+				cur.execute(req)
 			texte=texte+'\t'+k[0]+'||'+k[1]
 		ttt=time.time()
 		texte=texte+'\n'+str(ttt-tt)
