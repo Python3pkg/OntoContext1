@@ -176,7 +176,7 @@ def syno (Ontology, liste):
 				listy=listy+[j[0]]
 	return list(set(listy))
 #########################################Annotation concepts############################################ 
-def anntation(directory, table_name, GeniaPath):
+def annotation(directory, table_name, GeniaPath):
 	tagger = geniatagger.GeniaTagger(GeniaPath)
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
