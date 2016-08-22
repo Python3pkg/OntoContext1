@@ -13,10 +13,10 @@ import sqlite3 as lite
 import sys
 import time
 import geniatagger
-nltk.download()
+#nltk.download()
 reload(sys)
 sys.setdefaultencoding("utf-8")
-tagger = geniatagger.GeniaTagger('geniatagger-3.0.2/geniatagger')
+
 
 #########################################Searching for Ontological concepts############################################ 
 #Searching One_word concepts 
@@ -176,7 +176,8 @@ def syno (Ontology, liste):
 				listy=listy+[j[0]]
 	return list(set(listy))
 #########################################Annotation concepts############################################ 
-def anntation(directory, table_name):
+def anntation(directory, table_name, GeniaPath):
+	tagger = geniatagger.GeniaTagger(GeniaPath)
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
 	req='DROP TABLE IF EXISTS '+table_name
