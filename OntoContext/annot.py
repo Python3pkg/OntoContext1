@@ -167,15 +167,22 @@ def gene (sent,tagger):
 def syno (Ontology, liste):
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
+	listy=list()
 	for i in  set(liste):
-		listy=list()
-		req='SELECT Concept from '+Ontology+'_Synonym WHERE Syno=="%s"'%i.upper()
-		cur.execute(req)
-		sec=cur.fetchall()
-		if sec:
-			for j in sec:
-				print j[0]
-				listy=listy+[j[0]]
+		try:
+			req='SELECT Concept from '+Ontology+'_Synonym WHERE Syno=="%s"'%i.upper()
+			cur.execute(req)
+			sec=cur.fetchall()
+			if sec:
+				for j in sec:
+					listy=listy+[j[0]]
+		except AttributeError:
+			req='SELECT Concept from '+Ontology+'_Synonym WHERE Syno=="%s"'%i[0].upper()
+			cur.execute(req)
+			sec=cur.fetchall()
+			if sec:
+				for j in sec:
+					listy=listy+[j[0]]
 	return list(set(listy))
 #########################################Annotation concepts############################################ 
 def annotation(directory, table_name, GeniaPath):
@@ -215,11 +222,13 @@ def annotation(directory, table_name, GeniaPath):
 			list_gene=gene(sent,tagger)
 		all_cell=list_one_cl+list_comp_cl
 		syno_cell=syno ('CL', all_cell)
+		art1=str(filename)
+		art2=art1.split('/')
+		art3=art2[1].split('.txt')
+		art4=art3[0]
 		for C in syno_cell:
-				req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(C)+',CL)'
-				print req 
 				with con:
-					cur.execute(req)
+					cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(C),'CL'))
 		texte='Cell Pop:'
 		for k in list(set(list_one_cl)):
 			texte=texte+'\t'+str(k)
@@ -228,10 +237,8 @@ def annotation(directory, table_name, GeniaPath):
 		all_dis=list_one_doid+list_comp_doid
 		syno_dis=syno ('DOID', all_dis)
 		for C in syno_dis:
-				req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(C)+',DOID)'
-				#print req 
-				with con:
-					cur.execute(req)
+			with con:
+				cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(C),'DOID'))
 		texte=texte+'\n'+'Disease:'
 		for k in list(set(list_one_doid)):
 			texte=texte+'\t'+str(k)
@@ -240,10 +247,8 @@ def annotation(directory, table_name, GeniaPath):
 		all_ana=list_one_uberon+list_comp_uberon
 		syno_ana=syno ('UBERON', all_ana)
 		for C in syno_ana:
-				req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(C)+',UBERON)'
-				#print req 
-				with con:
-					cur.execute(req)
+			with con:
+				cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(C),'UBERON'))
 		texte=texte+'\n'+'Anatomy:'
 		for k in list(set(list_one_uberon)):
 			texte=texte+'\t'+str(k)
@@ -251,14 +256,14 @@ def annotation(directory, table_name, GeniaPath):
 			texte=texte+'\t'+k[0]
 		texte=texte+'\n'+'Gene:'
 		for k in list(set(list_gene)):
-			req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(k[0])+','+str(k[1])+')'
 			with con:
-				cur.execute(req)
+				cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(k[0]),'str(k[1])'))
 			texte=texte+'\t'+k[0]+'||'+k[1]
 		ttt=time.time()
 		texte=texte+'\n'+str(ttt-tt)
 	print (ttt-tt)
-	fil=open(dirctory+'.txt','w')
+	lif=directory+'.txt'
+	fil=open(str(lif),'w')
 	fil.write(texte)
 	fil.close()
 	print 'The annotation process is done'
