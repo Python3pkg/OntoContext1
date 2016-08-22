@@ -248,8 +248,7 @@ def anntation(directory, table_name):
 			texte=texte+'\t'+k[0]
 		texte=texte+'\n'+'Gene:'
 		for k in list(set(list_gene)):
-			req='INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(k[0])+','+str(k[1])+')'
-				#print req 
+			req=('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES ('+str(filename)+','+str(k[0])+','+str(k[1])+')')
 				with con:
 					cur.execute(req)
 			texte=texte+'\t'+k[0]+'||'+k[1]
