@@ -136,7 +136,7 @@ def comp_concept(sentence,onto):
 			up_res=up_res+sec
 	return up_res
 #########################################Searching for gene names############################################ 
-def gene (sent):
+def gene (sent,tagger):
 	c=tagger.parse(sent)
 	tup_gene=list()
 	name_list=list()
@@ -210,7 +210,7 @@ def annotation(directory, table_name, GeniaPath):
 			list_comp_doid=list_comp_doid+comp_concept(sent,'DOID')
 			list_one_uberon=list_one_uberon+one_Concept(sent,'UBERON')
 			list_comp_uberon=list_comp_uberon+comp_concept(sent,'UBERON')
-			list_gene=gene(sent)
+			list_gene=gene(sent,tagger)
 		all_cell=list_one_cl+list_comp_cl
 		syno_cell=syno ('CL', all_cell)
 		for C in syno_cell:

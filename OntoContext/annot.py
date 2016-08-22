@@ -165,6 +165,8 @@ def gene (sent,tagger):
 	return name_list
 #########################################Searching synonimes#########################################
 def syno (Ontology, liste):
+	con = lite.connect('Concepts.sqlite')
+	cur = con.cursor()
 	for i in  set(liste):
 		listy=list()
 		req='SELECT Concept from '+Ontology+'_Synonym WHERE Syno=="%s"'%i.upper()
