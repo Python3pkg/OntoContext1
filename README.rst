@@ -1,24 +1,24 @@
 OntoContext
 ======
 To annotate biomedical texts using three ontologies and gene names recovering using the geniatagger: 
-+-----------------------------+--------------------------+
-Cell Ontology (CL)						|	Cell populations         |
-Human Disease Ontology (DOID)	|	Pathologies              |
-Anatomical Ontology (UBERON)	|	Anatomical localisation  |
-+-----------------------------+--------------------------+
+
+||Cell Ontology (CL) for cell populations       
+||Human Disease Ontology (DOID)	for pathologies
+||Anatomical Ontology (UBERON) for anatomical localisation 
+
 
 
 Prerequisites
 -------------
 This package is coded using python 2.7
 It need: 
-|the NLTK package
-|the geniatagger package
-|| the geniatagger folder can be downloaded from here (http://www.nactem.ac.uk/tsujii/GENIA/tagger/geniatagger-3.0.2.tar.gz) 
-|the sqlite3 package 
-|the Tkinter package 
-|the operator package
-|the Concept databases can be downloaded from here (https://github.com/walidbedhiafi/OntoContext1/blob/master/OntoContext/Concepts.sqlite)
+||the NLTK package
+||the geniatagger package
+|| ||the geniatagger folder can be downloaded from here (http://www.nactem.ac.uk/tsujii/GENIA/tagger/geniatagger-3.0.2.tar.gz) 
+||the sqlite3 package 
+||the Tkinter package 
+||the operator package
+||the Concept databases can be downloaded from here (https://github.com/walidbedhiafi/OntoContext1/blob/master/OntoContext/Concepts.sqlite)
 
 
 Installation

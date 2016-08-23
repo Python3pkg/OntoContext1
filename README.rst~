@@ -19,10 +19,12 @@ It need:
 |the Tkinter package 
 |the operator package
 |the Concept databases can be downloaded from here (https://github.com/walidbedhiafi/OntoContext1/blob/master/OntoContext/Concepts.sqlite)
+
+
 Installation
 ------------
-This package is tested under Linux Python 2.7 and is available from the PyPI.  To
-install via pip :
+This package is tested under Linux Python 2.7 and is available from the PyPI.  
+To install via pip :
 
      pip install ontocontext
 
