@@ -189,15 +189,15 @@ def annotation(directory, table_name, GeniaPath):
 	tagger = geniatagger.GeniaTagger(GeniaPath)
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
-	req='DROP TABLE IF EXISTS '+table_name
-	print req
-	cur.execute(req)
+	rzq='DROP TABLE IF EXISTS '+table_name
+	print rzq
+	cur.execute(rzq)
 	raq='CREATE TABLE '+table_name+' (Art , Concept , Onto)'
 	cur.execute(raq)
 	texte=''	
 	for filename in glob.glob(os.path.join(directory, '*.txt')):
 		tt=time.time()
-		print str(filename)
+		print '--------------<'+str(filename)+'>--------------'
 		texte=texte+'--------------<'+str(filename)+'>--------------'+'\n'
 		fil1=open(filename,'r')
 		liste=fil1.read()
@@ -220,7 +220,12 @@ def annotation(directory, table_name, GeniaPath):
 			list_one_uberon=list_one_uberon+one_Concept(sent,'UBERON')
 			list_comp_uberon=list_comp_uberon+comp_concept(sent,'UBERON')
 			list_gene=gene(sent,tagger)
+			liste=['+','-']
+			newsent=sent.translate(None, ''.join(liste))
+			list_N_gene=gene(newsent,tagger)
+		N_list_gene=list_gene+list_N_gene
 		all_cell=list_one_cl+list_comp_cl
+		#print all_cell
 		syno_cell=syno ('CL', all_cell)
 		art1=str(filename)
 		art2=art1.split('/')
@@ -229,7 +234,7 @@ def annotation(directory, table_name, GeniaPath):
 		for C in syno_cell:
 				with con:
 					cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(C),'CL'))
-		texte='Cell Pop:'
+		texte=texte+'\n'+'Cell Pop:'
 		for k in list(set(list_one_cl)):
 			texte=texte+'\t'+str(k)
 		for k in list(set(list_comp_cl)):
@@ -255,14 +260,21 @@ def annotation(directory, table_name, GeniaPath):
 		for k in list(set(list_comp_uberon)):
 			texte=texte+'\t'+k[0]
 		texte=texte+'\n'+'Gene:'
-		for k in list(set(list_gene)):
-			with con:
-				cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(k[0]),'str(k[1])'))
-			texte=texte+'\t'+k[0]+'||'+k[1]
-		ttt=time.time()
+		for k in list(set(N_list_gene)):
+			try: 
+				with con:
+					cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(k[0]),str(k[1])))
+				texte=texte+'\t'+k[0]+'||'+k[1]
+			except lite.ProgrammingError:
+				con = lite.connect('Concepts.sqlite')
+				con.text_factory = str
+				cur = con.cursor()
+				with con:
+					cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(k[0]),str(k[1])))
+		ttt=time.time()		
 		texte=texte+'\n'+str(ttt-tt)
-	print (ttt-tt)
-	lif=directory+'.txt'
+		print (ttt-tt)
+	lif=directory+'res.txt'
 	fil=open(str(lif),'w')
 	fil.write(texte)
 	fil.close()
