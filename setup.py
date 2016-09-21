@@ -8,7 +8,7 @@ setup(
     author = 'Walid Bedhiafi',
     author_email = 'ontocontext@gmail.com',
     url = 'https://github.com/walidbedhiafi/OntoContext1',
-    download_url = 'https://github.com/walidbedhiafi/OntoContext1/archive/0.11.tar.gz',
+    download_url = 'https://github.com/walidbedhiafi/OntoContext1/archive/0.12.tar.gz',
     keywords = ['Bioinformatics', 'textmining' , 'Annotating', 'Ontology', 'biomedicaltext'],
     classifiers = [],
 )
