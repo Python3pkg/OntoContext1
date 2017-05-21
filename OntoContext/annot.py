@@ -143,7 +143,7 @@ def gene (sent,tagger):
 	for i in c:
 		if len(i[4])>1:
 			if 'cell' in i[4]:
-				print 'in progress'
+				print('in progress')
 			else:
 				tup_gene=tup_gene+[(i[1],i[4])]
 	if len(tup_gene)>0:
@@ -190,14 +190,14 @@ def annotation(directory, table_name, GeniaPath):
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
 	rzq='DROP TABLE IF EXISTS '+table_name
-	print rzq
+	print(rzq)
 	cur.execute(rzq)
 	raq='CREATE TABLE '+table_name+' (Art , Concept , Onto)'
 	cur.execute(raq)
 	texte=''	
 	for filename in glob.glob(os.path.join(directory, '*.txt')):
 		tt=time.time()
-		print '--------------<'+str(filename)+'>--------------'
+		print('--------------<'+str(filename)+'>--------------')
 		texte=texte+'--------------<'+str(filename)+'>--------------'+'\n'
 		fil1=open(filename,'r')
 		liste=fil1.read()
@@ -273,10 +273,10 @@ def annotation(directory, table_name, GeniaPath):
 					cur.execute('INSERT INTO '+table_name+' (Art , Concept , Onto) VALUES (?,?,?)',(art4,str(k[0]),str(k[1])))
 		ttt=time.time()		
 		texte=texte+'\n'+str(ttt-tt)
-		print (ttt-tt)
+		print((ttt-tt))
 	lif=directory+'res.txt'
 	fil=open(str(lif),'w')
 	fil.write(texte)
 	fil.close()
-	print 'The annotation process is done'
+	print('The annotation process is done')
 

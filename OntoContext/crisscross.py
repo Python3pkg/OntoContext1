@@ -7,7 +7,7 @@
 #!/usr/bin/python
 
 
-from Tkinter import *
+from tkinter import *
 import sqlite3 as lite
 import operator
 
@@ -86,7 +86,7 @@ class Checkbar(Frame):
          chk.pack(side=side, anchor=anchor, expand=YES)
          self.vars.append(var)
    def state(self):
-      return map((lambda var: var.get()), self.vars)
+      return list(map((lambda var: var.get()), self.vars))
 
 ###############################Generate Children###############################################
 def all_children(concepts, table):
@@ -100,7 +100,7 @@ def all_children(concepts, table):
 ###############################User parameters from the graphical interface#####################
 def param():
 	def allstates(): 
-		print(list(lng.state()), list(tgl.state()))
+		print((list(lng.state()), list(tgl.state())))
 		return (list(lng.state()), list(tgl.state()))
 	root=Tk()
 	lng = Checkbar(root, ['Sort by alphabetic order', 'Sort by frequency'])
@@ -141,7 +141,7 @@ def choosing (text_table,ontology, part):
 	text_liste=first_inter(text_table)
 	text_list=text_liste[0]
 	L=text_liste[1]
-	print "This step may take few minutes"
+	print("This step may take few minutes")
 	con = lite.connect('Concepts.sqlite')
 	cur = con.cursor()
 	my_cell_liste=list()
@@ -176,9 +176,9 @@ def choosing (text_table,ontology, part):
 		My_dict_art[i]=list(set(My_dict_art1[i]))
 		KK[i]=len(My_dict_art[i])
 	if L[0][0]==1:
-		GG=sorted(KK.items(), key=lambda x:x[0])
+		GG=sorted(list(KK.items()), key=lambda x:x[0])
 	else:
-		GG= sorted(KK.items(), key=lambda x:x[1], reverse=True)
+		GG= sorted(list(KK.items()), key=lambda x:x[1], reverse=True)
 	list_cell=list()
 	for o in GG:
 		texte=str(o[1])+'\t'+str(o[0])
@@ -200,9 +200,9 @@ def choosing (text_table,ontology, part):
 		terms_list=[i]
 		for j in my_dict_concept:
 			if i == j:
-				print my_dict_concept[j]
+				print(my_dict_concept[j])
 				for k in my_dict_concept[j]:
-					print str(i)+' has mentioned child: '+str(k)
+					print(str(i)+' has mentioned child: '+str(k))
 					terms_list=terms_list+[k]
 		terms_dict[i]=list(set(terms_list))
 	return (terms_dict,My_dict_art)
@@ -216,7 +216,7 @@ def crisscross(text_table):
 	protein_dict=dict()
 	DNA_dict=dict()
 	RNA_dict=dict()
-	print "starting the crisscross process"
+	print("starting the crisscross process")
 	for i in CC[0]:
 		for j in Dis[0]:
 			for k in Ana[0]:
